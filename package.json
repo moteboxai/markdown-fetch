@@ -1,0 +1,24 @@
+{
+  "name": "markdown-fetch",
+  "version": "1.0.0",
+  "description": "Token-efficient web content fetching via markdown.new - 80% token reduction for AI",
+  "main": "markdown-fetch.js",
+  "scripts": {
+    "test": "node test-markdown-fetch.js"
+  },
+  "keywords": [
+    "markdown",
+    "web",
+    "fetch",
+    "ai",
+    "tokens",
+    "llm",
+    "content-extraction"
+  ],
+  "author": "mote",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moteboxai/markdown-fetch.git"
+  }
+}
