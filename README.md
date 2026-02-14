@@ -78,6 +78,70 @@ const content = await fetchMarkdown(url);
 node lib/test-markdown-fetch.js
 ```
 
+## Cost Savings Calculator
+
+Real savings at scale:
+
+```bash
+node examples/cost-calculator.js
+```
+
+**Example scenarios:**
+
+| URLs/day | Model | HTML Cost | Markdown Cost | Monthly Savings |
+|----------|-------|-----------|---------------|-----------------|
+| 10 | GPT-4 | $24.27 | $4.72 | **$19.55** |
+| 100 | Claude-3-Sonnet | $145.62 | $28.35 | **$117.27** |
+| 1,000 | Grok Beta | $2,427.00 | $472.50 | **$1,954.50** |
+
+*Based on average blog post: 16k tokens (HTML) → 3k tokens (Markdown)*
+
+## Integration Examples
+
+### OpenRouter (any model)
+
+```javascript
+const { fetchMarkdown } = require('markdown-fetch');
+
+async function summarizeUrl(url, model = 'anthropic/claude-3-sonnet') {
+  const content = await fetchMarkdown(url, { includeMetadata: true });
+  
+  const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: [{ role: 'user', content: `Summarize: ${content.content}` }]
+    })
+  });
+  
+  return await response.json();
+}
+
+// Works with: Claude, GPT-4, Grok, Llama, Gemini, etc.
+```
+
+### Grok (x.ai)
+
+```javascript
+const { analyzeWithGrok } = require('markdown-fetch/examples/grok-example');
+
+const result = await analyzeWithGrok(
+  'https://example.com',
+  'Extract key facts from this page'
+);
+
+console.log(result.analysis);
+```
+
+**Full examples:**
+- `examples/openrouter-example.js` - Multi-model support
+- `examples/grok-example.js` - Grok + RAG knowledge base builder
+- `examples/cost-calculator.js` - ROI calculator
+
 ## Credits
 
 Built on [markdown.new](https://markdown.new) by Cloudflare
